@@ -28,29 +28,49 @@ class DeviceObject {
 class _DevicesTabState extends State<DevicesTab> {
   List<DeviceObject> devices = [];
 
-  void _onReceiveTaskData(Object data) {
-    print("Received data from the TaskHandler: $data");
+  // void _onReceiveTaskData(Object data) {
+  //   print("Received data from the TaskHandler: $data");
 
-    final Map<String, dynamic> devicesFromBackgroundTask =
-        data as Map<String, dynamic>;
+  //   final Map<String, dynamic> devicesFromBackgroundTask =
+  //       data as Map<String, dynamic>;
 
-    print("Received data from the TaskHandler: $devicesFromBackgroundTask");
+  //   print("Received data from the TaskHandler: $devicesFromBackgroundTask");
 
-    List<DeviceObject> devicesList = [];
-    // loop by keys of the map
-    devicesFromBackgroundTask.keys.forEach((key) {
-      // get the value of the key
-      String value = devicesFromBackgroundTask[key]!;
-      // split the value by comma
-      List<String> values = value.split(";");
-      // create a new DeviceObject and add it to the list
-      devicesList
-          .add(DeviceObject(key, int.parse(values[0]), int.parse(values[1])));
-    });
+  //   List<DeviceObject> devicesList = [];
+  //   // loop by keys of the map
+  //   devicesFromBackgroundTask.keys.forEach((key) {
+  //     // get the value of the key
+  //     String value = devicesFromBackgroundTask[key]!;
+  //     // split the value by comma
+  //     List<String> values = value.split(";");
+  //     // create a new DeviceObject and add it to the list
+  //     devicesList
+  //         .add(DeviceObject(key, int.parse(values[0]), int.parse(values[1])));
+  //   });
 
-    // update the state with the new list of devices
-    setState(() {
-      devices = devicesList;
+  //   // update the state with the new list of devices
+  //   setState(() {
+  //     devices = devicesList;
+  //   });
+  // }
+
+  void _startScan() {
+    FlutterBluePlus.startScan();
+    FlutterBluePlus.scanResults.listen((results) {
+      List<DeviceObject> devicesList = results
+          .where((v) => v.device.advName == "findflow_beacon")
+          .map(
+            (v) => DeviceObject(
+              v.device.remoteId.str,
+              v.rssi,
+              v.advertisementData.serviceData.values.first[0],
+            ),
+          )
+          .toList();
+
+      setState(() {
+        devices = devicesList;
+      });
     });
   }
 
@@ -58,13 +78,15 @@ class _DevicesTabState extends State<DevicesTab> {
   void initState() {
     super.initState();
     // Add a callback to receive data sent from the TaskHandler.
-    FlutterForegroundTask.addTaskDataCallback(_onReceiveTaskData);
+    // FlutterForegroundTask.addTaskDataCallback(_onReceiveTaskData);
+    _startScan();
   }
 
   @override
   void dispose() {
     // Remove a callback to receive data sent from the TaskHandler.
-    FlutterForegroundTask.removeTaskDataCallback(_onReceiveTaskData);
+    // FlutterForegroundTask.removeTaskDataCallback(_onReceiveTaskData);
+    FlutterBluePlus.stopScan();
     super.dispose();
   }
 

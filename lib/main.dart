@@ -161,12 +161,12 @@ void main() async {
 
   FlutterForegroundTask.initCommunicationPort();
 
-  await _requestPermissions();
-  _initService();
+  // await _requestPermissions();
+  // _initService();
 
-  ServiceRequestResult r = await _startService();
-  print(r.success);
-  print(r.error);
+  // ServiceRequestResult r = await _startService();
+  // print(r.success);
+  // print(r.error);
 
   runApp(const MainApp());
 }
