@@ -50,6 +50,9 @@ class BleScanTaskHandler extends TaskHandler {
             "${device.rssi};${device.advertisementData.serviceData.values.first[0]}";
       }
 
+      print("SENDING DATA TO MAIN ISOLATE");
+      print(data);
+
       FlutterForegroundTask.sendDataToMain(data);
     });
   }

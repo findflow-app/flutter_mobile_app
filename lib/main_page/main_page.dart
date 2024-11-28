@@ -17,25 +17,34 @@ class MainScreen extends StatelessWidget {
         scrolledUnderElevation: 10,
       ),
       body: DevicesTab(),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Devices',
+      bottomNavigationBar: Container(
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(24),
+            topLeft: Radius.circular(24),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Find',
+
+          child: BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Devices',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'Find',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle),
+                label: 'Profile',
+              ),
+            ],
+            selectedItemColor:
+                ThemeManager.instance.currentMode.colorScheme.primary,
+            backgroundColor:
+                ThemeManager.instance.currentMode.colorScheme.surfaceContainer,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Profile',
-          ),
-        ],
-        selectedItemColor:
-            ThemeManager.instance.currentMode.colorScheme.primary,
-        backgroundColor:
-            ThemeManager.instance.currentMode.colorScheme.surfaceContainer,
+        ),
       ),
     );
   }
