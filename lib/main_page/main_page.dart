@@ -73,7 +73,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         toolbarHeight: 100,
         title: Image.asset("assets/images/find_flow_logo.png",
             height: 40,
-            color: ThemeManager.instance.currentMode.colorScheme.primary),
+            color: Theme.of(context).colorScheme.primary),
         scrolledUnderElevation: 10,
       ),
       body: getBody(),
@@ -105,9 +105,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               ),
             ],
             selectedItemColor:
-                ThemeManager.instance.currentMode.colorScheme.primary,
+                Theme.of(context).colorScheme.primary,
             backgroundColor:
-                ThemeManager.instance.currentMode.colorScheme.surfaceContainer,
+                Theme.of(context).colorScheme.surfaceContainer,
           ),
         ),
       ),

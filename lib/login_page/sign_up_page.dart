@@ -12,7 +12,7 @@ class SignupScreen extends StatelessWidget {
         toolbarHeight: 100,
         title: Image.asset("assets/images/find_flow_logo.png",
             height: 40,
-            color: ThemeManager.instance.currentMode.colorScheme.primary),
+            color: Theme.of(context).colorScheme.primary),
       ),
       body: Center(
         child: Column(
@@ -30,8 +30,7 @@ class SignupScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: ThemeManager
-                        .instance.currentMode.colorScheme.primaryContainer,
+                    color: Theme.of(context).colorScheme.primaryContainer,
                     borderRadius: const BorderRadius.all(Radius.circular(50.0)),
                   ),
                   child: Padding(

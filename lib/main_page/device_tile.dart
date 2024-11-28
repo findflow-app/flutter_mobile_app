@@ -17,7 +17,7 @@ class DeviceTile extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           color:
-              ThemeManager.instance.currentMode.colorScheme.secondaryContainer,
+              Theme.of(context).colorScheme.secondaryContainer,
           borderRadius: const BorderRadius.all(Radius.circular(33.0)),
         ),
         child: Padding(
@@ -27,7 +27,7 @@ class DeviceTile extends StatelessWidget {
               Text(
                 result.id,
                 style: TextStyle(
-                  color: ThemeManager.instance.currentMode.colorScheme.primary,
+                  color: Theme.of(context).colorScheme.primary,
                   fontSize: 18.0,
                 ),
               ),
@@ -39,7 +39,7 @@ class DeviceTile extends StatelessWidget {
                     "RSSI: ${result.rssi}",
                     style: TextStyle(
                       color:
-                          ThemeManager.instance.currentMode.colorScheme.primary,
+                          Theme.of(context).colorScheme.primary,
                       fontSize: 14.0,
                     ),
                   ),
@@ -47,7 +47,7 @@ class DeviceTile extends StatelessWidget {
                     "Battery: $batteryLevel%",
                     style: TextStyle(
                       color:
-                          ThemeManager.instance.currentMode.colorScheme.primary,
+                          Theme.of(context).colorScheme.primary,
                       fontSize: 14.0,
                     ),
                   )

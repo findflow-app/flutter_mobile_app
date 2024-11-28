@@ -25,7 +25,7 @@ class DevicesTab extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color:
-                ThemeManager.instance.currentMode.colorScheme.surfaceContainer,
+                Theme.of(context).colorScheme.surfaceContainer,
           ),
           child: ListView.builder(
             itemBuilder: (context, index) {
