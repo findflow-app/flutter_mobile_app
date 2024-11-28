@@ -3,13 +3,13 @@ import 'package:findflow_mobile/themes/theme_manager.dart';
 import 'package:flutter/material.dart';
 
 class DeviceTile extends StatelessWidget {
-  ScanResult result;
+  DeviceObject result;
 
   DeviceTile({super.key, required this.result});
 
   @override
   Widget build(BuildContext context) {
-    int batteryLevel = result.advertisementData.serviceData.values.first[0];
+    int batteryLevel = result.batteryLevel;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -25,7 +25,7 @@ class DeviceTile extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                result.device.remoteId.str,
+                result.id,
                 style: TextStyle(
                   color: ThemeManager.instance.currentMode.colorScheme.primary,
                   fontSize: 18.0,

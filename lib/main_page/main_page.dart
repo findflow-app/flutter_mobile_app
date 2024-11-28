@@ -8,16 +8,15 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         centerTitle: true,
         toolbarHeight: 100,
-        title: Image.asset("assets/images/find_flow_logo.png", height: 40, color: ThemeManager.instance.currentMode.colorScheme.primary),
+        title: Image.asset("assets/images/find_flow_logo.png",
+            height: 40,
+            color: ThemeManager.instance.currentMode.colorScheme.primary),
         scrolledUnderElevation: 10,
       ),
-
       body: DevicesTab(),
-
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -33,8 +32,10 @@ class MainScreen extends StatelessWidget {
             label: 'Profile',
           ),
         ],
-        selectedItemColor: ThemeManager.instance.currentMode.colorScheme.primary,
-        backgroundColor: ThemeManager.instance.currentMode.colorScheme.surfaceContainer,
+        selectedItemColor:
+            ThemeManager.instance.currentMode.colorScheme.primary,
+        backgroundColor:
+            ThemeManager.instance.currentMode.colorScheme.surfaceContainer,
       ),
     );
   }
