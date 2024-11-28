@@ -1,12 +1,14 @@
 import 'dart:isolate';
 import 'dart:io';
 
+import 'package:findflow_mobile/auth_builder.dart';
 import 'package:findflow_mobile/login_page/login_page.dart';
 import 'package:findflow_mobile/login_page/sign_up_page.dart';
 import 'package:findflow_mobile/main_page/main_page.dart';
 import 'package:findflow_mobile/themes/theme_manager.dart';
 import 'package:flutter/material.dart';
 import "package:permission_handler/permission_handler.dart";
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -30,31 +32,31 @@ class BleScanTaskHandler extends TaskHandler {
   @override
   Future<void> onStart(DateTime timestamp, TaskStarter starter) async {
     // Start BLE scanning
-    print('BACKGROUND BLE scanning started');
+    // print('BACKGROUND BLE scanning started');
 
-    FlutterBluePlus.startScan();
+    // FlutterBluePlus.startScan();
 
-    FlutterBluePlus.scanResults.listen((results) {
-      devices = results
-          .where((v) => v.device.advName == "findflow_beacon")
-          .map(
-            (v) => ScanResult(v.device, v.rssi, v.advertisementData),
-          )
-          .toList();
+    // FlutterBluePlus.scanResults.listen((results) {
+    //   devices = results
+    //       .where((v) => v.device.advName == "findflow_beacon")
+    //       .map(
+    //         (v) => ScanResult(v.device, v.rssi, v.advertisementData),
+    //       )
+    //       .toList();
 
-      // Send data to main isolate.
-      final Map<String, dynamic> data = {};
+    //   // Send data to main isolate.
+    //   final Map<String, dynamic> data = {};
 
-      for (ScanResult device in devices) {
-        data[device.device.remoteId.str] =
-            "${device.rssi};${device.advertisementData.serviceData.values.first[0]}";
-      }
+    //   for (ScanResult device in devices) {
+    //     data[device.device.remoteId.str] =
+    //         "${device.rssi};${device.advertisementData.serviceData.values.first[0]}";
+    //   }
 
-      print("SENDING DATA TO MAIN ISOLATE");
-      print(data);
+    //   print("SENDING DATA TO MAIN ISOLATE");
+    //   print(data);
 
-      FlutterForegroundTask.sendDataToMain(data);
-    });
+    //   FlutterForegroundTask.sendDataToMain(data);
+    // });
   }
 
   @override
@@ -167,11 +169,13 @@ void main() async {
   // await _requestPermissions();
   // _initService();
 
-  // ServiceRequestResult r = await _startService();
+  // ServiceRequestResult r = await _startService ();
   // print(r.success);
   // print(r.error);
 
-  runApp(const MainApp());
+  runApp(const ProviderScope(
+    child: const MainApp(),
+  ));
 }
 
 class MainApp extends StatefulWidget {
@@ -184,12 +188,12 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
-    ThemeManager.instance.toggleTheme(true);
+    // ThemeManager.instance.toggleTheme(true);
 
     return MaterialApp(
       theme: lightMode,
       darkTheme: darkMode,
-      home: const MainScreen(),
+      home: const AuthBuilder(),
     );
   }
 }
