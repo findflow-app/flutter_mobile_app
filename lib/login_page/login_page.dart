@@ -4,6 +4,7 @@ import 'package:findflow_mobile/services/user_service.dart';
 import 'package:findflow_mobile/themes/theme_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:findflow_mobile/components/fullscreen_view.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -67,85 +68,87 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         centerTitle: true,
         toolbarHeight: 100,
         title: Image.asset("assets/images/find_flow_logo.png",
-            height: 40,
-            color: Theme.of(context).colorScheme.primary),
+            height: 40, color: Theme.of(context).colorScheme.primary),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(),
-            ),
-            const Text("Log in",
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
-            const SizedBox(
-              height: 40,
-            ),
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainer,
-                    borderRadius: const BorderRadius.all(Radius.circular(50.0)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextField(
-                          controller: _usernameController,
-                          decoration: const InputDecoration(
-                            labelText: 'Username',
-                            labelStyle: TextStyle(fontSize: 20),
+      body: FullscreenView(
+        child: Center(
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(),
+              ),
+              const Text("Log in",
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+              const SizedBox(
+                height: 40,
+              ),
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surfaceContainer,
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(50.0)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextField(
+                            controller: _usernameController,
+                            decoration: const InputDecoration(
+                              labelText: 'Username',
+                              labelStyle: TextStyle(fontSize: 20),
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                        TextField(
-                          obscureText: true,
-                          controller: _passwordController,
-                          decoration: const InputDecoration(
-                            labelText: 'Password',
-                            labelStyle: TextStyle(fontSize: 20),
+                          const SizedBox(height: 16),
+                          TextField(
+                            obscureText: true,
+                            controller: _passwordController,
+                            decoration: const InputDecoration(
+                              labelText: 'Password',
+                              labelStyle: TextStyle(fontSize: 20),
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: handleLogin,
-                          child: const Text('Login',
-                              style: TextStyle(fontSize: 20)),
-                        ),
-                      ],
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: handleLogin,
+                            child: const Text('Login',
+                                style: TextStyle(fontSize: 20)),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              child: TextButton(
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SignupScreen(),
-                  ),
-                ),
-                child: const Text("Don't have an account? Sign up",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
-                    )),
+              const SizedBox(
+                height: 20,
               ),
-            ),
-            Expanded(
-              child: Container(),
-              flex: 2,
-            ),
-          ],
+              Container(
+                child: TextButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SignupScreen(),
+                    ),
+                  ),
+                  child: const Text("Don't have an account? Sign up",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      )),
+                ),
+              ),
+              Expanded(
+                child: Container(),
+                flex: 2,
+              ),
+            ],
+          ),
         ),
       ),
     );

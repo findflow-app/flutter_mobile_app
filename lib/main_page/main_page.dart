@@ -30,9 +30,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           )
           .toList();
 
-      setState(() {
-        devices = devicesList;
-      });
+      if (this.mounted)
+        setState(() {
+          devices = devicesList;
+        });
     });
   }
 
@@ -49,6 +50,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     // Remove a callback to receive data sent from the TaskHandler.
     // FlutterForegroundTask.removeTaskDataCallback(_onReceiveTaskData);
     FlutterBluePlus.stopScan();
+
+    FlutterBluePlus.scanResults.listen((event) {}).cancel();
+
     super.dispose();
   }
 
@@ -72,8 +76,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         centerTitle: true,
         toolbarHeight: 100,
         title: Image.asset("assets/images/find_flow_logo.png",
-            height: 40,
-            color: Theme.of(context).colorScheme.primary),
+            height: 40, color: Theme.of(context).colorScheme.primary),
         scrolledUnderElevation: 10,
       ),
       body: getBody(),
@@ -104,10 +107,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 label: 'Settings',
               ),
             ],
-            selectedItemColor:
-                Theme.of(context).colorScheme.primary,
-            backgroundColor:
-                Theme.of(context).colorScheme.surfaceContainer,
+            selectedItemColor: Theme.of(context).colorScheme.primary,
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
           ),
         ),
       ),
