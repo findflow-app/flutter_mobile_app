@@ -92,15 +92,34 @@ class _DevicesTabState extends State<DevicesTab> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        DeviceObject device = devices[index];
+    if (devices.isEmpty) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+        
+        child: Container(
+          decoration: BoxDecoration(
+            color: ThemeManager.instance.currentMode.colorScheme.surfaceContainer,
+          ),
 
-        return DeviceTile(
-          result: device,
-        );
-      },
-      itemCount: devices.length,
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              if (index == 0) return SizedBox(height: 8.0);
+              DeviceObject device = devices[index - 1];
+              return DeviceTile(result: device);
+            },
+            itemCount: devices.length + 1,
+          ),
+        ),
+      ),
     );
   }
 }
+
