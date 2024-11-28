@@ -49,12 +49,18 @@ class AuthService extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> signUp(String email, String password, String name,
-      {String? phone}) async {
+  Future<void> signUp(
+      String email, String password, String name, String? phone) async {
     state = AuthLoading();
     try {
+      print("SIGNUP");
+      print("$email, $password, $name, $phone");
+
       final token = await _authRepository.signUp(email, password, name, phone);
       final user = await _authRepository.getUser(token);
+
+      print("TOKEN: $token");
+      print("USER: $user");
 
       await _storage.write(key: "token", value: token);
       state = AuthAuthenticated(token, user);
