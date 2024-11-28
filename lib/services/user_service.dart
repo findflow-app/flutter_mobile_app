@@ -78,4 +78,9 @@ class AuthService extends StateNotifier<AuthState> {
       state = AuthUnauthenticated();
     }
   }
+
+  Future<void> logout() async {
+    await _storage.delete(key: "token");
+    state = AuthUnauthenticated();
+  }
 }

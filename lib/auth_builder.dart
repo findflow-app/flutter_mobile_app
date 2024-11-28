@@ -13,11 +13,13 @@ class AuthBuilder extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authServiceProvider);
 
-    ref.listen(authServiceProvider, (prevState, _) {
-      if (prevState is AuthLoading) {
-        Navigator.pop(context);
-      }
-    });
+    print("authState: $authState");
+
+    // ref.listen(authServiceProvider, (prevState, _) {
+    //   if (prevState is AuthLoading) {
+    //     Navigator.pop(context);
+    //   }
+    // });
 
     if (authState is AuthInitial) {
       return const Center(

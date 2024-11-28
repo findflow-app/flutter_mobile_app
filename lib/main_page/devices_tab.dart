@@ -4,9 +4,41 @@ import 'package:findflow_mobile/themes/theme_manager.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 
-class DevicesTab extends StatefulWidget {
+class DevicesTab extends StatelessWidget {
+  List<DeviceObject> devices;
+
+  DevicesTab({super.key, required this.devices});
+
+  // void _onReceiveTaskData(Object data) {
   @override
-  _DevicesTabState createState() => _DevicesTabState();
+  Widget build(BuildContext context) {
+    if (devices.isEmpty) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+        child: Container(
+          decoration: BoxDecoration(
+            color:
+                ThemeManager.instance.currentMode.colorScheme.surfaceContainer,
+          ),
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              if (index == 0) return SizedBox(height: 8.0);
+              DeviceObject device = devices[index - 1];
+              return DeviceTile(result: device);
+            },
+            itemCount: devices.length + 1,
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class ScanResult {
@@ -24,102 +56,3 @@ class DeviceObject {
 
   DeviceObject(this.id, this.rssi, this.batteryLevel);
 }
-
-class _DevicesTabState extends State<DevicesTab> {
-  List<DeviceObject> devices = [];
-
-  // void _onReceiveTaskData(Object data) {
-  //   print("Received data from the TaskHandler: $data");
-
-  //   final Map<String, dynamic> devicesFromBackgroundTask =
-  //       data as Map<String, dynamic>;
-
-  //   print("Received data from the TaskHandler: $devicesFromBackgroundTask");
-
-  //   List<DeviceObject> devicesList = [];
-  //   // loop by keys of the map
-  //   devicesFromBackgroundTask.keys.forEach((key) {
-  //     // get the value of the key
-  //     String value = devicesFromBackgroundTask[key]!;
-  //     // split the value by comma
-  //     List<String> values = value.split(";");
-  //     // create a new DeviceObject and add it to the list
-  //     devicesList
-  //         .add(DeviceObject(key, int.parse(values[0]), int.parse(values[1])));
-  //   });
-
-  //   // update the state with the new list of devices
-  //   setState(() {
-  //     devices = devicesList;
-  //   });
-  // }
-
-  void _startScan() {
-    FlutterBluePlus.startScan();
-    FlutterBluePlus.scanResults.listen((results) {
-      List<DeviceObject> devicesList = results
-          .where((v) => v.device.advName == "findflow_beacon")
-          .map(
-            (v) => DeviceObject(
-              v.device.remoteId.str,
-              v.rssi,
-              v.advertisementData.serviceData.values.first[0],
-            ),
-          )
-          .toList();
-
-      setState(() {
-        devices = devicesList;
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // Add a callback to receive data sent from the TaskHandler.
-    // FlutterForegroundTask.addTaskDataCallback(_onReceiveTaskData);
-    _startScan();
-  }
-
-  @override
-  void dispose() {
-    // Remove a callback to receive data sent from the TaskHandler.
-    // FlutterForegroundTask.removeTaskDataCallback(_onReceiveTaskData);
-    FlutterBluePlus.stopScan();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (devices.isEmpty) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-    
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(50.0)),
-        
-        child: Container(
-          decoration: BoxDecoration(
-            color: ThemeManager.instance.currentMode.colorScheme.surfaceContainer,
-          ),
-
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              if (index == 0) return SizedBox(height: 8.0);
-              DeviceObject device = devices[index - 1];
-              return DeviceTile(result: device);
-            },
-            itemCount: devices.length + 1,
-          ),
-        ),
-      ),
-    );
-  }
-}
-

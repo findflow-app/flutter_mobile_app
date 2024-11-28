@@ -1,3 +1,4 @@
+import 'package:findflow_mobile/login_page/sign_up_page.dart';
 import 'package:findflow_mobile/providers.dart';
 import 'package:findflow_mobile/services/user_service.dart';
 import 'package:findflow_mobile/themes/theme_manager.dart';
@@ -126,12 +127,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               height: 20,
             ),
             Container(
-              child: const Text("Don't have an account? Sign up",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
-                  )),
+              child: TextButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SignupScreen(),
+                  ),
+                ),
+                child: const Text("Don't have an account? Sign up",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    )),
+              ),
             ),
             Expanded(
               child: Container(),
