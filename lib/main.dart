@@ -1,4 +1,6 @@
 import 'package:findflow_mobile/login_page/login_page.dart';
+import 'package:findflow_mobile/login_page/sign_up_page.dart';
+import 'package:findflow_mobile/themes/theme_manager.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,16 +17,14 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
+
+    ThemeManager.instance.toggleTheme(true);
+
     return MaterialApp(
-
-      home: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Image.asset("assets/images/find_flow_logo.png", height: 30),
-        ),
-
-        body: const LoginScreen(),
-      ),
+      theme: lightMode,
+      darkTheme: darkMode,
+      home: const SignupScreen(),
+    
     );
   }
 }

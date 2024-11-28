@@ -2,8 +2,8 @@ import 'package:findflow_mobile/app_bar.dart';
 import 'package:findflow_mobile/themes/theme_manager.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
               child: Container(),
             ),
             
-            const Text("Log in", style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+            const Text("Sign up", style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
 
             const SizedBox(
               height: 40,
@@ -44,11 +44,30 @@ class LoginScreen extends StatelessWidget {
                       children: [
                         const TextField(
                           decoration: InputDecoration(
+                            labelText: 'Name & lastname',
+                            labelStyle: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                        const TextField(
+                          decoration: InputDecoration(
                             labelText: 'Username',
                             labelStyle: TextStyle(fontSize: 20),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 25),
+                        const TextField(
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            labelStyle: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                        const TextField(
+                          decoration: InputDecoration(
+                            labelText: 'Phone number',
+                            labelStyle: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                        const SizedBox(height: 25),
                         const TextField(
                           obscureText: true,
                           decoration: InputDecoration(
@@ -56,7 +75,13 @@ class LoginScreen extends StatelessWidget {
                             labelStyle: TextStyle(fontSize: 20),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const TextField(
+                          decoration: InputDecoration(
+                            labelText: 'Confirm password',
+                            labelStyle: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                        const SizedBox(height: 25),
                         ElevatedButton(
                           onPressed: () {},
                           child: const Text('Login', style: TextStyle(fontSize: 20)),
@@ -73,7 +98,7 @@ class LoginScreen extends StatelessWidget {
             ),
 
             Container(
-              child: Text("Don't have an account? Sign up", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, decoration: TextDecoration.underline,)),
+              child: Text("Already have an account? Log in", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, decoration: TextDecoration.underline)),
             ),
 
             Expanded(
