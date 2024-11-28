@@ -1,4 +1,3 @@
-import 'package:findflow_mobile/app_bar.dart';
 import 'package:findflow_mobile/themes/theme_manager.dart';
 import 'package:flutter/material.dart';
 

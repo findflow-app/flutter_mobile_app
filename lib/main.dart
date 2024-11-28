@@ -1,5 +1,6 @@
 import 'package:findflow_mobile/login_page/login_page.dart';
 import 'package:findflow_mobile/login_page/sign_up_page.dart';
+import 'package:findflow_mobile/main_page/main_page.dart';
 import 'package:findflow_mobile/themes/theme_manager.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,7 @@ class _MainAppState extends State<MainApp> {
     return MaterialApp(
       theme: lightMode,
       darkTheme: darkMode,
-      home: const SignupScreen(),
+      home: const MainScreen(),
     
     );
   }
