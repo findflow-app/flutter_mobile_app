@@ -4,6 +4,7 @@ import 'package:findflow_mobile/services/beacons_service.dart';
 import 'package:findflow_mobile/themes/theme_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class DeviceTile extends ConsumerWidget {
   DeviceObject result;
@@ -23,18 +24,46 @@ class DeviceTile extends ConsumerWidget {
   }
 
   void openInfo(BuildContext context) {
+    late WebViewController controller;
+    if (beacon?.data_type == "url") {
+      controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..setNavigationDelegate(
+          NavigationDelegate(
+            onProgress: (int progress) {
+              // Update loading bar.
+            },
+            onPageStarted: (String url) {},
+            onPageFinished: (String url) {},
+            onHttpError: (HttpResponseError error) {},
+            onWebResourceError: (WebResourceError error) {},
+            onNavigationRequest: (NavigationRequest request) {
+              if (request.url.startsWith('https://www.youtube.com/')) {
+                return NavigationDecision.prevent;
+              }
+              return NavigationDecision.navigate;
+            },
+          ),
+        )
+        ..loadRequest(Uri.parse(beacon?.data ?? "https://www.google.com/"));
+    }
+
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return Scaffold(
         appBar: AppBar(
-          title: Text("Beacon Info"),
+          title: Text(beacon?.name ?? result.id),
         ),
-        body: Column(
-          children: [
-            Text("Name: ${beacon?.name}"),
-            Text("Data Type: ${beacon?.data_type}"),
-            Text("Data: ${beacon?.data}"),
-          ],
-        ),
+        body: beacon?.data_type == "url"
+            ? WebViewWidget(controller: controller!)
+            : Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: Text(
+                  beacon?.data ?? "No data",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 18.0),
+                ),
+              ),
       );
     }));
   }

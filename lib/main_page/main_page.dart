@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:findflow_mobile/main_page/devices_tab.dart';
 import 'package:findflow_mobile/main_page/profile_tab.dart';
@@ -47,6 +48,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               d.advertisementData.serviceData.values.first[0], d.timeStamp))
           .toList();
 
+      newDevicesList.sort((a, b) => b.rssi.compareTo(a.rssi));
+
       if (this.mounted)
         setState(() {
           devices = newDevicesList;
@@ -59,7 +62,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     BeaconsService beaconsService = ref.read(beaconsServiceProvider.notifier);
     // AuthState authState = ref.watch(authServiceProvider);
 
-    Timer.periodic(Duration(seconds: 4), (timer) {
+    Timer.periodic(Duration(seconds: 3), (timer) {
       // // avaiableDevices are devices that have been seen in the last 10 seconds
       // final availableDevices = devices
       //     .where((element) => element.lastSeen
@@ -71,9 +74,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       //         .isBefore(DateTime.now().subtract(Duration(seconds: 10))))
       //     .toList();
 
+      // print("devices: ${devices.map(e => e.id).toList()}");
       final closestDevice = devices.reduce((a, b) => a.rssi > b.rssi ? a : b);
 
       print("closestDevice: ${closestDevice.id}");
+      print("devices: ${devices.map((e) => "${e.id} - ${e.rssi}").toList()}");
 
       authService.logBeacon(closestDevice.id);
 
@@ -94,7 +99,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     _startScan();
     _startTimer();
 
-    Timer.periodic(Duration(seconds: 30), (timer) {
+    Timer.periodic(Duration(seconds: 12), (timer) {
       // reset the devices list
       // setState(() {
       //   devices = [];
