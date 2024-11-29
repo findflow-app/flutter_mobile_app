@@ -11,3 +11,11 @@ class User with _$User {
     String? phone_number,
   }) = _User;
 }
+
+@freezed
+class UserLow with _$UserLow {
+  const factory UserLow({
+    required int id,
+    required String name,
+  }) = _UserLow;
+}

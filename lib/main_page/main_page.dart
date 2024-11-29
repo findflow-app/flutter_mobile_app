@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:findflow_mobile/main_page/devices_tab.dart';
 import 'package:findflow_mobile/main_page/profile_tab.dart';
+import 'package:findflow_mobile/main_page/search_tab.dart';
+import 'package:findflow_mobile/models/beacon_model.dart';
 import 'package:findflow_mobile/providers.dart';
+import 'package:findflow_mobile/services/beacons_service.dart';
 import 'package:findflow_mobile/services/user_service.dart';
 import 'package:findflow_mobile/themes/theme_manager.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +21,8 @@ class MainScreen extends ConsumerStatefulWidget {
 
 class _MainScreenState extends ConsumerState<MainScreen> {
   List<DeviceObject> devices = [];
+  Map<String, Beacon> beacons = {};
+
   late Timer _timer;
   int _currentIndex = 0;
 
@@ -35,11 +40,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           // )
           .toList();
 
-      for (var device in devicesList) {
-        print("device: ${device.device.remoteId.str} - ${device.timeStamp}");
-        print("----------------");
-      }
-
       // dcheck if the device hasnt been seen in the last 10 seconds
       List<DeviceObject> newDevicesList = devicesList
           .toList()
@@ -56,6 +56,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   void _startTimer() {
     AuthService authService = ref.read(authServiceProvider.notifier);
+    BeaconsService beaconsService = ref.read(beaconsServiceProvider.notifier);
     // AuthState authState = ref.watch(authServiceProvider);
 
     Timer.periodic(Duration(seconds: 4), (timer) {
@@ -73,11 +74,16 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       final closestDevice = devices.reduce((a, b) => a.rssi > b.rssi ? a : b);
 
       print("closestDevice: ${closestDevice.id}");
+
       authService.logBeacon(closestDevice.id);
 
-      // setState(() {
-      //   devices = availableDevices;
-      // });
+      beaconsService
+          .getBeaconNames(devices.map((e) => e.id).toList())
+          .then((mybeacons) {
+        setState(() {
+          beacons = mybeacons;
+        });
+      });
     });
   }
 
@@ -118,9 +124,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget getBody() {
     switch (_currentIndex) {
       case 0:
-        return DevicesTab(devices: devices);
+        return DevicesTab(devices: devices, beacons: beacons);
       case 1:
-        return Container();
+        return SearchTab();
       case 2:
         return ProfileTab();
       default:

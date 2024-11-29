@@ -194,3 +194,145 @@ abstract class _User implements User {
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$UserLow {
+  int get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+
+  /// Create a copy of UserLow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $UserLowCopyWith<UserLow> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UserLowCopyWith<$Res> {
+  factory $UserLowCopyWith(UserLow value, $Res Function(UserLow) then) =
+      _$UserLowCopyWithImpl<$Res, UserLow>;
+  @useResult
+  $Res call({int id, String name});
+}
+
+/// @nodoc
+class _$UserLowCopyWithImpl<$Res, $Val extends UserLow>
+    implements $UserLowCopyWith<$Res> {
+  _$UserLowCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of UserLow
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$UserLowImplCopyWith<$Res> implements $UserLowCopyWith<$Res> {
+  factory _$$UserLowImplCopyWith(
+          _$UserLowImpl value, $Res Function(_$UserLowImpl) then) =
+      __$$UserLowImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int id, String name});
+}
+
+/// @nodoc
+class __$$UserLowImplCopyWithImpl<$Res>
+    extends _$UserLowCopyWithImpl<$Res, _$UserLowImpl>
+    implements _$$UserLowImplCopyWith<$Res> {
+  __$$UserLowImplCopyWithImpl(
+      _$UserLowImpl _value, $Res Function(_$UserLowImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of UserLow
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+  }) {
+    return _then(_$UserLowImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UserLowImpl implements _UserLow {
+  const _$UserLowImpl({required this.id, required this.name});
+
+  @override
+  final int id;
+  @override
+  final String name;
+
+  @override
+  String toString() {
+    return 'UserLow(id: $id, name: $name)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UserLowImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name);
+
+  /// Create a copy of UserLow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserLowImplCopyWith<_$UserLowImpl> get copyWith =>
+      __$$UserLowImplCopyWithImpl<_$UserLowImpl>(this, _$identity);
+}
+
+abstract class _UserLow implements UserLow {
+  const factory _UserLow({required final int id, required final String name}) =
+      _$UserLowImpl;
+
+  @override
+  int get id;
+  @override
+  String get name;
+
+  /// Create a copy of UserLow
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UserLowImplCopyWith<_$UserLowImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
