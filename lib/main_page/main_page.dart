@@ -162,8 +162,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 label: 'Find',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle),
-                label: 'Profile',
+                icon: Icon(Icons.settings),
+                label: 'Settings',
               ),
             ],
             selectedItemColor: Theme.of(context).colorScheme.primary,

@@ -76,7 +76,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           TextField(
                             controller: _fullnameController,
                             decoration: const InputDecoration(
-                              labelText: 'Fullname',
+                              labelText: 'Full name',
                               labelStyle: TextStyle(fontSize: 20),
                             ),
                           ),
@@ -108,7 +108,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           const SizedBox(height: 25),
                           ElevatedButton(
                             onPressed: handleSignup,
-                            child: const Text('Login',
+                            child: const Text('Sign up',
                                 style: TextStyle(fontSize: 20)),
                           ),
                         ],
