@@ -4,8 +4,18 @@ import 'package:flutter/material.dart';
 
 class DeviceTile extends StatelessWidget {
   DeviceObject result;
+  bool isClosest;
+  DateTime lastSeen;
 
-  DeviceTile({super.key, required this.result});
+  DeviceTile(
+      {super.key,
+      required this.result,
+      this.isClosest = false,
+      required this.lastSeen});
+
+  String getDate(DateTime date) {
+    return "${date.hour}:${date.minute}:${date.second}";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +26,9 @@ class DeviceTile extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color:
-              Theme.of(context).colorScheme.secondaryContainer,
+          color: isClosest
+              ? Theme.of(context).colorScheme.secondaryContainer
+              : Theme.of(context).colorScheme.onSecondary,
           borderRadius: const BorderRadius.all(Radius.circular(33.0)),
         ),
         child: Padding(
@@ -38,19 +49,22 @@ class DeviceTile extends StatelessWidget {
                   Text(
                     "RSSI: ${result.rssi}",
                     style: TextStyle(
-                      color:
-                          Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 14.0,
                     ),
                   ),
                   Text(
                     "Battery: $batteryLevel%",
                     style: TextStyle(
-                      color:
-                          Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 14.0,
                     ),
-                  )
+                  ),
+                  Text("${getDate(lastSeen)}",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 14.0,
+                      )),
                 ],
               )
             ],

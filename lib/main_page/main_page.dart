@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:findflow_mobile/main_page/devices_tab.dart';
 import 'package:findflow_mobile/main_page/profile_tab.dart';
+import 'package:findflow_mobile/providers.dart';
+import 'package:findflow_mobile/services/user_service.dart';
 import 'package:findflow_mobile/themes/theme_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -14,35 +18,88 @@ class MainScreen extends ConsumerStatefulWidget {
 
 class _MainScreenState extends ConsumerState<MainScreen> {
   List<DeviceObject> devices = [];
+  late Timer _timer;
   int _currentIndex = 0;
 
   void _startScan() {
     FlutterBluePlus.startScan();
-    FlutterBluePlus.scanResults.listen((results) {
-      List<DeviceObject> devicesList = results
+    FlutterBluePlus.onScanResults.listen((results) {
+      final devicesList = results
           .where((v) => v.device.advName == "findflow_beacon")
-          .map(
-            (v) => DeviceObject(
-              v.device.remoteId.str,
-              v.rssi,
-              v.advertisementData.serviceData.values.first[0],
-            ),
-          )
+          // .map(
+          //   (v) => DeviceObject(
+          //     v.device.remoteId.str,
+          //     v.rssi,
+          //     v.advertisementData.serviceData.values.first[0],
+          //   ),
+          // )
+          .toList();
+
+      for (var device in devicesList) {
+        print("device: ${device.device.remoteId.str} - ${device.timeStamp}");
+        print("----------------");
+      }
+
+      // dcheck if the device hasnt been seen in the last 10 seconds
+      List<DeviceObject> newDevicesList = devicesList
+          .toList()
+          .map((d) => DeviceObject(d.device.remoteId.str, d.rssi,
+              d.advertisementData.serviceData.values.first[0], d.timeStamp))
           .toList();
 
       if (this.mounted)
         setState(() {
-          devices = devicesList;
+          devices = newDevicesList;
         });
+    });
+  }
+
+  void _startTimer() {
+    AuthService authService = ref.read(authServiceProvider.notifier);
+    // AuthState authState = ref.watch(authServiceProvider);
+
+    Timer.periodic(Duration(seconds: 4), (timer) {
+      // // avaiableDevices are devices that have been seen in the last 10 seconds
+      // final availableDevices = devices
+      //     .where((element) => element.lastSeen
+      //         .isAfter(DateTime.now().subtract(Duration(seconds: 10))))
+      //     .toList();
+
+      // final removedDevices = devices
+      //     .where((element) => element.lastSeen
+      //         .isBefore(DateTime.now().subtract(Duration(seconds: 10))))
+      //     .toList();
+
+      final closestDevice = devices.reduce((a, b) => a.rssi > b.rssi ? a : b);
+
+      print("closestDevice: ${closestDevice.id}");
+      authService.logBeacon(closestDevice.id);
+
+      // setState(() {
+      //   devices = availableDevices;
+      // });
     });
   }
 
   @override
   void initState() {
-    super.initState();
     // Add a callback to receive data sent from the TaskHandler.
     // FlutterForegroundTask.addTaskDataCallback(_onReceiveTaskData);
     _startScan();
+    _startTimer();
+
+    Timer.periodic(Duration(seconds: 30), (timer) {
+      // reset the devices list
+      // setState(() {
+      //   devices = [];
+      // });
+
+      FlutterBluePlus.stopScan();
+
+      _startScan();
+    });
+
+    super.initState();
   }
 
   @override
@@ -50,6 +107,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     // Remove a callback to receive data sent from the TaskHandler.
     // FlutterForegroundTask.removeTaskDataCallback(_onReceiveTaskData);
     FlutterBluePlus.stopScan();
+
+    // _timer.cancel();
 
     FlutterBluePlus.scanResults.listen((event) {}).cancel();
 

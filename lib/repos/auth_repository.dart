@@ -62,4 +62,11 @@ class AuthRepository {
       throw Exception('Failed to sign up');
     }
   }
+
+  Future<void> logBeacon(String token, String beaconId) {
+    return _dio.post('/log_user', data: {
+      'token': token,
+      'beacon_id': beaconId,
+    });
+  }
 }

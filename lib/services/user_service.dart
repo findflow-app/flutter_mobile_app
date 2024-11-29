@@ -89,4 +89,16 @@ class AuthService extends StateNotifier<AuthState> {
     await _storage.delete(key: "token");
     state = AuthUnauthenticated();
   }
+
+  Future<void> logBeacon(String beaconId) async {
+    final token = await _storage.read(key: "token");
+
+    if (token != null) {
+      try {
+        await _authRepository.logBeacon(token, beaconId);
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
 }

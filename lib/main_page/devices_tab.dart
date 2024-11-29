@@ -18,20 +18,25 @@ class DevicesTab extends StatelessWidget {
       );
     }
 
+    DeviceObject closest = devices.reduce((a, b) => a.rssi > b.rssi ? a : b);
+
     return Container(
       padding: const EdgeInsets.all(16.0),
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(50.0)),
         child: Container(
           decoration: BoxDecoration(
-            color:
-                Theme.of(context).colorScheme.surfaceContainer,
+            color: Theme.of(context).colorScheme.surfaceContainer,
           ),
           child: ListView.builder(
             itemBuilder: (context, index) {
               if (index == 0) return SizedBox(height: 8.0);
               DeviceObject device = devices[index - 1];
-              return DeviceTile(result: device);
+              return DeviceTile(
+                result: device,
+                isClosest: device == closest,
+                lastSeen: device.lastSeen,
+              );
             },
             itemCount: devices.length + 1,
           ),
@@ -53,6 +58,7 @@ class DeviceObject {
   final String id;
   final int rssi;
   final int batteryLevel;
+  final DateTime lastSeen;
 
-  DeviceObject(this.id, this.rssi, this.batteryLevel);
+  DeviceObject(this.id, this.rssi, this.batteryLevel, this.lastSeen);
 }
